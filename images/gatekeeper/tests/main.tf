@@ -37,10 +37,10 @@ resource "helm_release" "gatekeeper" {
   version = var.chart-version == "latest" ? null : var.chart-version
 
   values = [jsonencode({
-    preInstall = var.skip_crds ? null : {
+    preInstall = {
       crdRepository = {
         image = {
-          repository = "openpolicyagent/gatekeeper-crds"
+          repository = var.skip_crds ? "" : "openpolicyagent/gatekeeper-crds"
           tag        = "v3.13.0-beta.1"
         }
       }
